@@ -1,8 +1,9 @@
 package gildedrose
 
 type Item struct {
-	Name            string
-	SellIn, Quality int
+	Name    string
+	SellIn  int
+	Quality int
 }
 
 func UpdateQuality(items []*Item) {
