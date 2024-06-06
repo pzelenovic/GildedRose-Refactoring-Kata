@@ -60,6 +60,9 @@ func UpdateQuality(items []*Item) {
 				}
 			}
 		}
+		if items[i].Name == "Conjured item" {
+			items[i].Quality -= 1
+		}
 	}
 
 }

@@ -12,6 +12,7 @@ const (
 	AgedBrie        = "Aged Brie"
 	Sulfuras        = "Sulfuras, Hand of Ragnaros"
 	Pera            = "Pera Proizvod"
+	ConjuredItem = "Conjured item"
 )
 
 func Test_SellInAndQualityDecreases(t *testing.T) {
@@ -138,4 +139,18 @@ func Test_AgedBrieIncreasesInQualityAsExpiryApproaches(t *testing.T) {
 	gildedrose.UpdateQuality(items)
 	require.Equal(t, -2, items[0].SellIn)
 	require.Equal(t, 22, items[0].Quality)
+}
+
+
+func Test_ConjuredItem(t *testing.T){
+	items := []*gildedrose.Item{
+		{
+			Name: ConjuredItem,
+			Quality: 10,
+			SellIn: 5,
+		},
+	}
+	gildedrose.UpdateQuality(items)
+	require.Equal(t, 8, items[0].Quality)
+	require.Equal(t, 4, items[0].SellIn)
 }
