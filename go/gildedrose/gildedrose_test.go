@@ -33,11 +33,11 @@ func Test_SulfurasSellInDecreasesAndQualityRemainsTheSame(t *testing.T) {
 		{
 			Name:    Sulfuras,
 			SellIn:  24,
-			Quality: 30,
+			Quality: 80,
 		},
 	}
 	gildedrose.UpdateQuality(items)
-	require.Equal(t, 30, items[0].Quality)
+	require.Equal(t, 80, items[0].Quality)
 	require.Equal(t, 24, items[0].SellIn)
 }
 
