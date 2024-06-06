@@ -15,23 +15,23 @@ type OtherItem struct {
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
 
-		if items[i].Name != "Aged Brie" && items[i].Name != "Backstage passes to a TAFKAL80ETC concert" {
+		if notAgedBrie(items[i]) && notBackPasses(items[i]) {
 			if items[i].Quality > 0 {
 				if items[i].Name != "Sulfuras, Hand of Ragnaros" {
 					items[i].Quality = items[i].Quality - 1
 				}
 			}
 		} else {
-			if items[i].Quality < 50 {
+			if belowMaxQuality(items[i]) {
 				items[i].Quality = items[i].Quality + 1
 				if items[i].Name == "Backstage passes to a TAFKAL80ETC concert" {
 					if items[i].SellIn < 11 {
-						if items[i].Quality < 50 {
+						if belowMaxQuality(items[i]) {
 							items[i].Quality = items[i].Quality + 1
 						}
 					}
 					if items[i].SellIn < 6 {
-						if items[i].Quality < 50 {
+						if belowMaxQuality(items[i]) {
 							items[i].Quality = items[i].Quality + 1
 						}
 					}
@@ -55,14 +55,23 @@ func UpdateQuality(items []*Item) {
 					items[i].Quality = items[i].Quality - items[i].Quality
 				}
 			} else {
-				if items[i].Quality < 50 {
+				if belowMaxQuality(items[i]) {
 					items[i].Quality = items[i].Quality + 1
 				}
 			}
 		}
-		if items[i].Name == "Conjured item" {
-			items[i].Quality -= 1
-		}
 	}
 
+}
+
+func belowMaxQuality(item *Item) bool {
+	return item.Quality < 50
+}
+
+func notBackPasses(item *Item) bool {
+	return item.Name != "Backstage passes to a TAFKAL80ETC concert"
+}
+
+func notAgedBrie(items *Item) bool {
+	return items.Name != "Aged Brie"
 }
