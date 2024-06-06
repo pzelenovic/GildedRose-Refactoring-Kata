@@ -4,13 +4,8 @@ type Item struct {
 	Name       string
 	SellIn     int
 	Quality    int
-	OtherItems []*OtherItem
 }
 
-type OtherItem struct {
-	Name string
-	Size int
-}
 
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
@@ -18,7 +13,7 @@ func UpdateQuality(items []*Item) {
 		if notAgedBrie(items[i]) && notBackPasses(items[i]) {
 			if items[i].Quality > 0 {
 				if items[i].Name != "Sulfuras, Hand of Ragnaros" {
-					items[i].Quality = items[i].Quality - 1
+					decrementQuality(items[i])
 				}
 			}
 		} else {
@@ -27,12 +22,12 @@ func UpdateQuality(items []*Item) {
 				if items[i].Name == "Backstage passes to a TAFKAL80ETC concert" {
 					if items[i].SellIn < 11 {
 						if belowMaxQuality(items[i]) {
-							items[i].Quality = items[i].Quality + 1
+							incrementQuality(items[i])
 						}
 					}
 					if items[i].SellIn < 6 {
 						if belowMaxQuality(items[i]) {
-							items[i].Quality = items[i].Quality + 1
+							incrementQuality(items[i])
 						}
 					}
 				}
@@ -56,7 +51,7 @@ func UpdateQuality(items []*Item) {
 				}
 			} else {
 				if belowMaxQuality(items[i]) {
-					items[i].Quality = items[i].Quality + 1
+					incrementQuality(items[i])
 				}
 			}
 		}
@@ -74,4 +69,12 @@ func notBackPasses(item *Item) bool {
 
 func notAgedBrie(items *Item) bool {
 	return items.Name != "Aged Brie"
+}
+
+func decrementQuality(item *Item) {
+	item.Quality -= 1
+}
+
+func incrementQuality(item *Item) {
+	item.Quality += 1
 }
