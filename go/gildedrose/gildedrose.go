@@ -6,6 +6,20 @@ type Item struct {
 	Quality int
 }
 
+type SulfurasItem struct {
+	Item
+}
+
+func (item *Item) Process() bool {
+	item.Quality += 1
+	return true
+}
+
+func (item *SulfurasItem) Process() bool {
+	item.Quality += 1
+	return true
+}
+
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
 
