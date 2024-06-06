@@ -1,11 +1,10 @@
 package gildedrose
 
 type Item struct {
-	Name       string
-	SellIn     int
-	Quality    int
+	Name    string
+	SellIn  int
+	Quality int
 }
-
 
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
@@ -13,7 +12,7 @@ func UpdateQuality(items []*Item) {
 		if notAgedBrie(items[i]) && notBackPasses(items[i]) {
 			if items[i].Quality > 0 {
 				if items[i].Name != "Sulfuras, Hand of Ragnaros" {
-					decrementQuality(items[i])
+					changeQuality(items[i], -1)
 				}
 			}
 		} else {
@@ -22,12 +21,12 @@ func UpdateQuality(items []*Item) {
 				if items[i].Name == "Backstage passes to a TAFKAL80ETC concert" {
 					if items[i].SellIn < 11 {
 						if belowMaxQuality(items[i]) {
-							incrementQuality(items[i])
+							changeQuality(items[i], 1)
 						}
 					}
 					if items[i].SellIn < 6 {
 						if belowMaxQuality(items[i]) {
-							incrementQuality(items[i])
+							changeQuality(items[i], 1)
 						}
 					}
 				}
@@ -43,7 +42,7 @@ func UpdateQuality(items []*Item) {
 				if items[i].Name != "Backstage passes to a TAFKAL80ETC concert" {
 					if items[i].Quality > 0 {
 						if items[i].Name != "Sulfuras, Hand of Ragnaros" {
-							items[i].Quality = items[i].Quality - 1
+							changeQuality(items[i], -1)
 						}
 					}
 				} else {
@@ -51,7 +50,7 @@ func UpdateQuality(items []*Item) {
 				}
 			} else {
 				if belowMaxQuality(items[i]) {
-					incrementQuality(items[i])
+					changeQuality(items[i], 1)
 				}
 			}
 		}
@@ -71,10 +70,6 @@ func notAgedBrie(items *Item) bool {
 	return items.Name != "Aged Brie"
 }
 
-func decrementQuality(item *Item) {
-	item.Quality -= 1
-}
-
-func incrementQuality(item *Item) {
-	item.Quality += 1
+func changeQuality(item *Item, quality int) {
+	item.Quality += quality
 }
