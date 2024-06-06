@@ -9,7 +9,9 @@ import (
 
 const (
 	BackstagePasses = "Backstage passes to a TAFKAL80ETC concert"
-	AgedBrie = "Aged Brie"
+	AgedBrie        = "Aged Brie"
+	Sulfuras        = "Sulfuras, Hand of Ragnaros"
+	Pera            = "Pera Proizvod"
 )
 
 func Test_SellInAndQualityDecreases(t *testing.T) {
@@ -28,7 +30,7 @@ func Test_SellInAndQualityDecreases(t *testing.T) {
 func Test_SulfurasSellInDecreasesAndQualityRemainsTheSame(t *testing.T) {
 	items := []*gildedrose.Item{
 		{
-			Name:    "Sulfuras, Hand of Ragnaros",
+			Name:    Sulfuras,
 			SellIn:  24,
 			Quality: 30,
 		},
@@ -69,7 +71,7 @@ func Test_QualityOfAnItemIsNeverNegative(t *testing.T) {
 func Test_AfterSellInExpiryQualityDecreasesOnTheDouble(t *testing.T) {
 	items := []*gildedrose.Item{
 		{
-			Name:    "Pera Proizvod",
+			Name:    Pera,
 			SellIn:  0,
 			Quality: 10,
 		},
@@ -88,7 +90,7 @@ func Test_BackStagePasses(t *testing.T) {
 				Quality: 5,
 			},
 		}
-	
+
 		gildedrose.UpdateQuality(items)
 		require.Equal(t, 7, items[0].Quality)
 		require.Equal(t, 8, items[0].SellIn)
@@ -102,7 +104,7 @@ func Test_BackStagePasses(t *testing.T) {
 				Quality: 5,
 			},
 		}
-	
+
 		gildedrose.UpdateQuality(items)
 		require.Equal(t, 8, items[0].Quality)
 		require.Equal(t, 3, items[0].SellIn)
@@ -116,10 +118,24 @@ func Test_BackStagePasses(t *testing.T) {
 				Quality: 50,
 			},
 		}
-	
+
 		gildedrose.UpdateQuality(items)
 		require.Equal(t, 0, items[0].Quality)
 		require.Equal(t, -1, items[0].SellIn)
 	})
 
+}
+
+func Test_AgedBrieIncreasesInQualityAsExpiryApproaches(t *testing.T) {
+	items := []*gildedrose.Item{
+		{
+			Name:    AgedBrie,
+			SellIn:  -1,
+			Quality: 20,
+		},
+	}
+
+	gildedrose.UpdateQuality(items)
+	require.Equal(t, -2, items[0].SellIn)
+	require.Equal(t, 22, items[0].Quality)
 }

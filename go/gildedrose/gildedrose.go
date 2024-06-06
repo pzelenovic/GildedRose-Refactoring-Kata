@@ -1,9 +1,15 @@
 package gildedrose
 
 type Item struct {
-	Name    string
-	SellIn  int
-	Quality int
+	Name       string
+	SellIn     int
+	Quality    int
+	OtherItems []*OtherItem
+}
+
+type OtherItem struct {
+	Name string
+	Size int
 }
 
 func UpdateQuality(items []*Item) {
